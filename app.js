@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
+const mongoose = require('mongoose');
 
 const users = [];
 
@@ -49,10 +50,6 @@ app.delete('/users/:id', (request, response) => {
     response.status(200).send("User deleted successfully!")
 })
 
-app.listen(3000, () => {
-  console.log("Started on port 3000");
-});
-
 // PUT - Update user (partial update allowed)
 app.put("/users/:id", (req, res) => {
     const { id } = req.params;
@@ -66,3 +63,14 @@ app.put("/users/:id", (req, res) => {
     users[index] = { ...users[index], ...updatedData };
     res.status(200).send("User updated successfully!");
   });
+
+  //DB 
+  mongoose.connect('mongodb+srv://achrafelbey07:kziD5aHx6YvEfwGF@cluster0.sgmbtel.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0')
+  .then(()=> {
+
+    app.listen(3000, () => {
+      console.log("Started on port 3000");
+    });
+    
+  })
+  .catch((err)=> {console.log(err)});
