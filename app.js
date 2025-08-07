@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const mongoose = require('mongoose');
-
+const MyData = require("./modelss/dataShema");
 const users = [];
 
 // HTTP METHODS
@@ -12,8 +13,8 @@ app.get("/", (request, response) => {
   response.send("Welcome to home!");
 });
 //res home page 
-app.get("/home" , (req,res) => {
-  res.sendFile("./views/home.html", {root: __dirname})
+app.get("/home", (req, res) => {
+  res.sendFile("./views/home.html", { root: __dirname })
 });
 
 app.get("/users", (request, response) => {
@@ -33,44 +34,56 @@ app.post("/users", (request, response) => {
     response.status(400).send("User already exists");
     return;
   }
-  users.push(user); 
+  users.push(user);
   response.status(201).send("Created!");
 });
 
 
 // DELETE - Remove data
 app.delete('/users/:id', (request, response) => {
-    const { id } = request.params
-    const findUserIndex = users.findIndex((x) => x.id === id)
-    if(findUserIndex == -1) {
-        response.status(400).send("User not found!")
-        return
-    }
-    users.splice(findUserIndex, 1)
-    response.status(200).send("User deleted successfully!")
+  const { id } = request.params
+  const findUserIndex = users.findIndex((x) => x.id === id)
+  if (findUserIndex == -1) {
+    response.status(400).send("User not found!")
+    return
+  }
+  users.splice(findUserIndex, 1)
+  response.status(200).send("User deleted successfully!")
 })
 
 // PUT - Update user (partial update allowed)
 app.put("/users/:id", (req, res) => {
-    const { id } = req.params;
-    const updatedData = req.body;
-  
-    const index = users.findIndex((u) => u.id === id);
-    if (index === -1) {
-      return res.status(404).send("User not found!");
-    }
-  
-    users[index] = { ...users[index], ...updatedData };
-    res.status(200).send("User updated successfully!");
-  });
+  const { id } = req.params;
+  const updatedData = req.body;
 
-  //DB 
-  mongoose.connect('mongodb+srv://achrafelbey07:kziD5aHx6YvEfwGF@cluster0.sgmbtel.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0')
-  .then(()=> {
+  const index = users.findIndex((u) => u.id === id);
+  if (index === -1) {
+    return res.status(404).send("User not found!");
+  }
+
+  users[index] = { ...users[index], ...updatedData };
+  res.status(200).send("User updated successfully!");
+});
+
+//DB 
+mongoose.connect('mongodb+srv://achrafelbey07:kziD5aHx6YvEfwGF@cluster0.sgmbtel.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0')
+  .then(() => {
 
     app.listen(3000, () => {
       console.log("Started on port 3000");
     });
-    
+
   })
-  .catch((err)=> {console.log(err)});
+  .catch((err) => { console.log(err) });
+
+///////////
+
+app.post("/home", (req, res) => {
+  console.log(req.body);
+  const myData = new MyData(req.body);
+  myData.save().then(() => {
+    res.redirect("/home");
+  }).catch((err) => {
+    console.log(err);
+  });
+});
