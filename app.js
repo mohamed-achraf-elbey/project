@@ -5,6 +5,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const mongoose = require('mongoose');
 const MyData = require("./modelss/dataShema");
+app.set('view engine','ejs');
 const users = [];
 
 // HTTP METHODS
@@ -12,9 +13,16 @@ const users = [];
 app.get("/", (request, response) => {
   response.send("Welcome to home!");
 });
+
+
 //res home page 
 app.get("/home", (req, res) => {
-  res.sendFile("./views/home.html", { root: __dirname })
+  MyData.find().then((result) => {
+    console.log(result)
+    res.render("home" , {mytitle: "home page" , name : result.length > 0 ? result[0].username : "no user" , arr : result } )
+  }).catch((err) => {
+    console.log(err)
+  })
 });
 
 app.get("/users", (request, response) => {
