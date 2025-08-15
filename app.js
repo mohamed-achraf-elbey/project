@@ -23,7 +23,7 @@
   });
 
   const users = [];
-
+  const port = 3000 ;
 
 
   //res home page 
@@ -97,15 +97,15 @@
   mongoose.connect('mongodb+srv://achrafelbey07:kziD5aHx6YvEfwGF@cluster0.sgmbtel.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0')
     .then(() => {
 
-      app.listen(3000, () => {
-        console.log("Started on port 3000");
+      app.listen(port, () => {
+        console.log(`Server running at http://localhost:${port}/`);
       });
 
     })
     .catch((err) => { console.log(err) });
 
   ///////////
-
+/*
   app.post("/home", (req, res) => {
     console.log(req.body);
     const myData = new MyData(req.body);
@@ -114,4 +114,4 @@
     }).catch((err) => {
       console.log(err);
     });
-  });
+  });*/
