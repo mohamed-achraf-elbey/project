@@ -33,7 +33,7 @@
       <section class="w-100">
        <%- include('../Componentes/navbar.ejs') %>
 
-        <form class="mx-0 row gx-3 gy-4 mt-3">
+        <form class="mx-0 row gx-3 gy-4 mt-3" action="/user/add.html" method="post">
           <div class="col-md-6">
             <label for="inputfirstName4" class="form-label">First Name:</label>
             <input
@@ -41,6 +41,7 @@
               type="text"
               class="form-control"
               id="inputfirstName4"
+              name="First_Name"
             />
           </div>
           <div class="col-md-6">
@@ -50,6 +51,7 @@
               type="text"
               class="form-control"
               id="inputlastName4"
+              name="Last_Name"
             />
           </div>
 
@@ -60,15 +62,17 @@
               type="email"
               class="form-control"
               id="inputemail4"
+              name="Email"
             />
           </div>
           <div class="col-md-6">
             <label for="inputtele4" class="form-label">Telephone:</label>
             <input
               placeholder="011987899"
-              type="number"
+              type="text  "
               class="form-control"
               id="inputtele4"
+              name="Telephone"
             />
           </div>
 
@@ -80,6 +84,7 @@
                 type="number"
                 class="form-control"
                 id="inputage4"
+                name="Age"
               />
             </div>
           </div>
@@ -87,9 +92,8 @@
           <div>
             <div class="col-md-6">
               <label for="inputCountry" class="form-label">Country:</label>
-              <select id="inputCountry" class="form-select">
+              <select id="inputCountry" class="form-select" name ="Country">
                 <option selected hidden disabled>Choose here ...</option>
-
                 <option>Morocco</option>
                 <option>Egypt</option>
               </select>
@@ -99,7 +103,7 @@
           <div>
             <div class="col-md-6">
               <label for="inputGender" class="form-label">Gender:</label>
-              <select id="inputGender" class="form-select">
+              <select id="inputGender" class="form-select" name ="Gender">
                 <option selected hidden disabled>Choose here ...</option>
                 <option>Male</option>
                 <option>Female</option>

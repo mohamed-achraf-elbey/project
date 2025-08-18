@@ -1,0 +1,10 @@
+name & schema
+{
+    First_Name: aaaaa,
+    Last_Name: dddddd,
+    Email: Email,
+    Telephone: number,
+    age : number + ,
+    Country: choise,
+    Gender: choise,
+}

@@ -4,7 +4,7 @@
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   const mongoose = require('mongoose');
-  const MyData = require("./modelss/dataShema");
+  const User = require("./modelss/customersShema");
   app.set('view engine','ejs');
   app.use(express.static('public'));
 
@@ -92,6 +92,28 @@
     users[index] = { ...users[index], ...updatedData };
     res.status(200).send("User updated successfully!");
   });*/
+  
+
+
+//Post Requst
+  app.post("/user/add.html", (req, res) => {
+    console.log(req.body);
+    const user = new User(req.body);
+    user.save().then(result => {
+      res.redirect("/user/add.html");
+    }).catch(err=> {
+      console.log(err);
+      res.status(500).send("Error saving user");
+    })
+    
+  });
+
+
+
+
+
+
+
 
   //DB 
   mongoose.connect('mongodb+srv://achrafelbey07:kziD5aHx6YvEfwGF@cluster0.sgmbtel.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0')
