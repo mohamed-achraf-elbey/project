@@ -35,11 +35,11 @@
         <nav class="px-2 mt-4 d-flex flex-wrap justify-content-between" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Ali Hassan</li>
+            <li class="breadcrumb-item active" aria-current="page"><%= user.First_Name +" "+ user.Last_Name %></li>
           </ol>
 
 
-          <p class="me-md-5"> <span class="fw-medium fs-6">Id :</span> 6487021520bcf1af6319484c</p>
+          <p class="me-md-5"> <span class="fw-medium fs-6">Id :</span> <%= user._id %></p>
         </nav>
 
 
@@ -53,7 +53,7 @@
           <div class="col-md-6">
             <label for="inputfirstName4" class="form-label">First Name:</label>
             <input
-              placeholder="Ali..."
+              placeholder="<%= user.First_Name %>"
               type="text"
               class="form-control"
               id="inputfirstName4"
@@ -62,7 +62,7 @@
           <div class="col-md-6">
             <label for="inputlastName4" class="form-label">Last Name:</label>
             <input
-              placeholder="Hassan..."
+              placeholder="<%= user.Last_Name %>"
               type="text"
               class="form-control"
               id="inputlastName4"
@@ -72,7 +72,7 @@
           <div class="col-md-6">
             <label for="inputemail4" class="form-label">Email:</label>
             <input
-              placeholder="ali@gmail.com"
+              placeholder="<%= user.Email %>"
               type="email"
               class="form-control"
               id="inputemail4"
@@ -81,7 +81,7 @@
           <div class="col-md-6">
             <label for="inputtele4" class="form-label">Telephone:</label>
             <input
-              placeholder="011987899"
+              placeholder="<%= user.Telephone %>"
               type="number"
               class="form-control"
               id="inputtele4"
@@ -92,7 +92,7 @@
             <div class="col-md-6">
               <label for="inputage4" class="form-label">Age:</label>
               <input
-                placeholder="Your Age: ..."
+                placeholder="<%= user.Age %>"
                 type="number"
                 class="form-control"
                 id="inputage4"
@@ -153,6 +153,7 @@
               <h1 class="modal-title fs-5" id="exampleModalLabel">
                 Delete Customer
               </h1>
+              
               <button
                 type="button"
                 class="btn-close"
@@ -162,6 +163,7 @@
             </div>
             <div class="modal-body">Are you sure you want to continue delete the customer?</div>
             <div class="modal-footer">
+              
               <button
                 type="button"
                 class="btn btn-secondary"
@@ -169,9 +171,12 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-danger">
+              <form action="/edit/<%= user._id %>?_method=DELETE" method="post" style="display: inline;">
+              <button type="submit" class="btn btn-danger">
                 Delete
               </button>
+              </form>
+
             </div>
           </div>
         </div>

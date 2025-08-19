@@ -49,16 +49,19 @@
                 <td> <%= moment(result[index].updatedAt).fromNow() %></td>
                 <td>
                   <a data-bs-toggle="tooltip" data-bs-title="View details" data-bs-placement="top"
-                    class="btn btn-primary btn-sm" href="./user/<%= result[index]._id %>"><i class="bi bi-eye"></i></a>
+                    class="btn btn-primary btn-sm" href="/view/<%= result[index]._id %>"><i class="bi bi-eye"></i></a>
   
                   <a data-bs-toggle="tooltip" data-bs-title="Edit user" data-bs-placement="top"
-                    class="btn btn-primary btn-sm" href="./user/<%= result[index]._id %>">
+                    class="btn btn-primary btn-sm" href="/edit/<%= result[index]._id %>">
                     <i class="bi bi-pencil"></i>
                   </a>
+                  <form action="/edit/<%= result[index]._id %>?_method=DELETE" method="post" style="display: inline;">
                   <button data-bs-toggle="tooltip" data-bs-title="Delete user" data-bs-placement="top"
-                    class="btn btn-danger btn-sm">
+                    class="btn btn-danger btn-sm" type="submit">
                     <i class="bi bi-trash"></i>
                   </button>
+                  </form>
+
                 </td>
               </tr>
             <% } %>
