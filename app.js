@@ -28,14 +28,18 @@
 
   //res home page 
   app.get("/", (req, res) => {
-    res.render("index" , {} )
 
-    /*MyData.find().then((result) => {
+    User.find().then((result) => {
       console.log(result)
+      res.render("index" , {result} )
+      
     }).catch((err) => {
       console.log(err)
-    })*/
+    })
   });
+
+
+
   app.get("/user/add.html", (req, res) => {
     res.render("user/add" , {} )
   });
@@ -100,7 +104,7 @@
     console.log(req.body);
     const user = new User(req.body);
     user.save().then(result => {
-      res.redirect("/user/add.html");
+      res.redirect("/");
     }).catch(err=> {
       console.log(err);
       res.status(500).send("Error saving user");
