@@ -46,13 +46,13 @@
                 <td><%= result[index].Gender %> </td>
                 <td><%= result[index].Country %></td>
                 <td><%= result[index].Age %></td>
-                <td><%= result[index].lastUpdated %></td>
+                <td> 1 days ago</td>
                 <td>
                   <a data-bs-toggle="tooltip" data-bs-title="View details" data-bs-placement="top"
-                    class="btn btn-primary btn-sm" href="./user/view.html"><i class="bi bi-eye"></i></a>
+                    class="btn btn-primary btn-sm" href="./user/<%= result[index]._id %>"><i class="bi bi-eye"></i></a>
   
                   <a data-bs-toggle="tooltip" data-bs-title="Edit user" data-bs-placement="top"
-                    class="btn btn-primary btn-sm" href="./user/edit.html">
+                    class="btn btn-primary btn-sm" href="./user/<%= result[index]._id %>">
                     <i class="bi bi-pencil"></i>
                   </a>
                   <button data-bs-toggle="tooltip" data-bs-title="Delete user" data-bs-placement="top"

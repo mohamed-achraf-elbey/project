@@ -43,10 +43,24 @@
   app.get("/user/add.html", (req, res) => {
     res.render("user/add" , {} )
   });
-  app.get("/user/view.html", (req, res) => {
-    res.render("user/view" , {} )
+
+  app.get("/user/:id", (req, res) => {
+    User.findById(req.params.id)
+      .then((result) => {
+        if (!result) {
+          return res.status(404).send("User not found");
+        }
+        // Render and pass user data
+        res.render("user/view", { user: result });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Server Error");
+      });
   });
-  app.get("/user/edit.html", (req, res) => {
+  
+
+  app.get("/user/edit.html/:id", (req, res) => {
     res.render("user/edit" , {} )
   });
  /*app.get("/users", (request, response) => {
