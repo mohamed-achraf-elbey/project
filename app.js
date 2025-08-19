@@ -16,6 +16,10 @@
   liveReloadServer.watch(__dirname + "/views"); 
   liveReloadServer.watch(__dirname + "/public"); 
 
+  //moment 
+  const moment = require("moment");
+  app.locals.moment = moment; // makes it available inside EJS
+
   liveReloadServer.server.once("connection", () => {
     setTimeout(() => {
       liveReloadServer.refresh("/");
@@ -28,41 +32,27 @@
 
   //res home page 
   app.get("/", (req, res) => {
-
     User.find().then((result) => {
-      console.log(result)
+     // console.log(result)
       res.render("index" , {result} )
       
     }).catch((err) => {
       console.log(err)
     })
   });
-
-
-
+//this first 
   app.get("/user/add.html", (req, res) => {
     res.render("user/add" , {} )
   });
 
-  app.get("/user/:id", (req, res) => {
-    User.findById(req.params.id)
-      .then((result) => {
-        if (!result) {
-          return res.status(404).send("User not found");
-        }
-        // Render and pass user data
-        res.render("user/view", { user: result });
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Server Error");
-      });
-  });
+  
   
 
   app.get("/user/edit.html/:id", (req, res) => {
     res.render("user/edit" , {} )
   });
+
+
  /*app.get("/users", (request, response) => {
     if (users.length == 0) {
       response.status(404).send("No users found!");
@@ -110,12 +100,28 @@
     users[index] = { ...users[index], ...updatedData };
     res.status(200).send("User updated successfully!");
   });*/
-  
+
+
+  //requst for varibles 
+  app.get("/user/:id", (req, res) => {
+    User.findById(req.params.id)
+      .then((result) => {
+        if (!result) {
+          return res.status(404).send("User not found");
+        }
+        // Render and pass user data
+        res.render("user/view", { user: result });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Server Error");
+      });
+  });
 
 
 //Post Requst
   app.post("/user/add.html", (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const user = new User(req.body);
     user.save().then(result => {
       res.redirect("/");

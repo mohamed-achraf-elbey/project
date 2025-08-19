@@ -46,7 +46,7 @@
                 <td><%= result[index].Gender %> </td>
                 <td><%= result[index].Country %></td>
                 <td><%= result[index].Age %></td>
-                <td> 1 days ago</td>
+                <td> <%= moment(result[index].updatedAt).fromNow() %></td>
                 <td>
                   <a data-bs-toggle="tooltip" data-bs-title="View details" data-bs-placement="top"
                     class="btn btn-primary btn-sm" href="./user/<%= result[index]._id %>"><i class="bi bi-eye"></i></a>

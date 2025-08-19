@@ -9,6 +9,7 @@ const CustomersShema = new Schema ({
     Age : { type: Number, required: true },
     Country: { type: String, required: true },
     Gender: { type: String, required: true },
-});
+},
+{ timestamps: true });
 const User = mongoose.model("customer" , CustomersShema);
 module.exports = User ;

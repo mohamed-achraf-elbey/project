@@ -94,12 +94,12 @@
 
             <tr>
               <th scope="row">Created on</th>
-              <td>1 days ago</td>
+              <td><%= moment(user.createdAt).fromNow() %></td>
             </tr>
 
             <tr>
               <th scope="row">Last Update</th>
-              <td>1 days ago</td>
+              <td><%= moment(user.updatedAt).fromNow() %></td>
             </tr>
           </tbody>
         </table>
