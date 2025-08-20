@@ -74,9 +74,12 @@
 
                 </tbody>
               </table>
-              <% }else{ %>
+              <% }else{  %>
+                <% if (!Boolean) { %>
+                  <h1 style="text-align: center; margin-top: 5rem ;"> No find customer </h1>
+                <% }else{ %>
                 <h1 style="text-align: center; margin-top: 5rem ;"> No data available </h1>
-                <% } %>
+                <% }} %>
         </section>
     </main>
     <script src="./js/bootstrap.bundle.min.js"></script>

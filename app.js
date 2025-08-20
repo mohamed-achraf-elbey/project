@@ -144,6 +144,27 @@ app.post("/user/add.html", (req, res) => {
 
 });
 
+app.post("/search", (req, res) => {
+  const keyword = req.body.name; 
+
+  User.find({
+    $or: [
+      { First_Name: { $regex: keyword, $options: "i" } }, 
+      { Last_Name: { $regex: keyword, $options: "i" } },  
+      { Country: { $regex: keyword, $options: "i" } }    
+    ]
+  })
+    .then(result => {
+      //console.log(result);
+        res.render("user/search", { result }); 
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send("Error searching user");
+    });
+});
+
+
 
 //Delete Requst 
 app.delete("/edit/:id", (req, res) => {
