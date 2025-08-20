@@ -134,8 +134,8 @@ app.get("/edit/:id", (req, res) => {
 //Post Requst
 app.post("/user/add.html", (req, res) => {
   //console.log(req.body);
-  const user = new User(req.body);
-  user.save().then(result => {
+  //const user = new User();
+  User.create(req.body).then(result => {
     res.redirect("/");
   }).catch(err => {
     console.log(err);
@@ -157,6 +157,20 @@ app.delete("/edit/:id", (req, res) => {
   })
 });
 
+//Put Requst 
+app.put("/edit/:id", (req, res) => {
+  User.updateOne({ _id: req.params.id }, req.body) // or findByIdAndUpdate(req.params.id,req.body)
+    .then((result) => {
+      if (result.matchedCount === 0) {
+        return res.status(404).send("User not found");
+      }
+      res.redirect("/");
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Failed to update user");
+    });
+});
 
 
 

@@ -32,11 +32,13 @@
             <form class="mx-0 row gx-3 gy-4 mt-3" action="/user/add.html" method="post">
               <div class="col-md-6">
                 <label for="inputfirstName4" class="form-label">First Name:</label>
-                <input placeholder="Ali..." type="text" class="form-control" id="inputfirstName4" name="First_Name" />
+                <input placeholder="Ali..." type="text" class="form-control" id="inputfirstName4" name="First_Name"
+                  required />
               </div>
               <div class="col-md-6">
                 <label for="inputlastName4" class="form-label">Last Name:</label>
-                <input placeholder="Hassan..." type="text" class="form-control" id="inputlastName4" name="Last_Name" />
+                <input placeholder="Hassan..." type="text" class="form-control" id="inputlastName4" name="Last_Name"
+                  required />
               </div>
 
               <div class="col-md-6">
@@ -45,20 +47,22 @@
               </div>
               <div class="col-md-6">
                 <label for="inputtele4" class="form-label">Telephone:</label>
-                <input placeholder="011987899" type="text  " class="form-control" id="inputtele4" name="Telephone" />
+                <input placeholder="011987899" type="text  " class="form-control" id="inputtele4" name="Telephone"
+                  required />
               </div>
 
               <div>
                 <div class="col-md-6">
                   <label for="inputage4" class="form-label">Age:</label>
-                  <input placeholder="Your Age: ..." type="number" class="form-control" id="inputage4" name="Age" />
+                  <input placeholder="Your Age: ..." type="number" class="form-control" id="inputage4" name="Age"
+                    required />
                 </div>
               </div>
 
               <div>
                 <div class="col-md-6">
                   <label for="inputCountry" class="form-label">Country:</label>
-                  <select id="inputCountry" class="form-select" name="Country">
+                  <select id="inputCountry" class="form-select" name="Country" required>
                     <option selected hidden disabled>Choose here ...</option>
                     <% const countryList=[ "Afghanistan" , "Albania" , "Algeria" , "American Samoa" , "Andorra"
                       , "Angola" , "Anguilla" , "Antarctica" , "Antigua and Barbuda" , "Argentina" , "Armenia" , "Aruba"
@@ -120,7 +124,7 @@
               <div>
                 <div class="col-md-6">
                   <label for="inputGender" class="form-label">Gender:</label>
-                  <select id="inputGender" class="form-select" name="Gender">
+                  <select id="inputGender" class="form-select" name="Gender" required>
                     <option selected hidden disabled>Choose here ...</option>
                     <option>Male</option>
                     <option>Female</option>
