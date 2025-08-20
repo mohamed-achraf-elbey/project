@@ -26,6 +26,7 @@
     <%- include('./Componentes/sidebar.ejs' , {courentPage : "index"}) %>
     <section class="w-100">
       <%- include('./Componentes/navbar.ejs') %>
+      <% if(result.length > 0) {  %>
         <table style="width: 99%" class="text-center mx-auto table mt-5 table-striped table-bordered">
           <thead>
             <tr>
@@ -68,6 +69,8 @@
           
           </tbody>
         </table>
+      <% }else{ %>
+        <h1 style="text-align: center; margin-top: 5rem ;"> No data available </h1><% } %>
     </section>
   </main>
   <script src="./js/bootstrap.bundle.min.js"></script>
