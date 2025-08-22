@@ -1,99 +1,27 @@
 const express = require('express')
 const router = express.Router()
 const User = require("../modelss/customersShema");
+const userController = require("../controllers/userController");
 
 //res home page 
-router.get("/", (req, res) => {
-    User.find().then((result) => {
-      // console.log(result)
-      res.render("index", { result })
-  
-    }).catch((err) => {
-      console.log(err)
-    })
-  });
+router.get("/", userController.user_index_get);
   //this first 
 
-  
   //requst for varibles 
-  router.get("/view/:id", (req, res) => {
-    User.findById(req.params.id)
-      .then((result) => {
-        if (!result) {
-          return res.status(404).send("User not found");
-        }
-        // Render and pass user data
-        res.render("user/view", { user: result });
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Server Error");
-      });
-  });
+  router.get("/view/:id", userController.user_view_get);
   
   //edit
-  router.get("/edit/:id", (req, res) => {
-    User.findById(req.params.id).then((result) => {
-      if (!result) {
-        return res.status(404).send("User not found");
-      }
-      res.render("user/edit", { user: result });
-    }).catch((err) => {
-      console.error(err);
-      res.status(500).send("serveur error");
-    })
-  
-  });
+  router.get("/edit/:id", userController.user_edit_get);
   
   //Post Requst
 
-  
-  router.post("/search", (req, res) => {
-    const keyword = req.body.name.trim(); 
-  
-    User.find({
-      $or: [
-        { First_Name: { $regex: keyword, $options: "i" } }, 
-        { Last_Name: { $regex: keyword, $options: "i" } },  
-        { Country: { $regex: keyword, $options: "i" } }    
-      ]
-    })
-      .then(result => {
-        //console.log(result);
-          res.render("user/search", { result }); 
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).send("Error searching user");
-      });
-  });
+  router.post("/search", userController.user_search_post);
   
   //Delete Requst 
-  router.delete("/edit/:id", (req, res) => {
-    User.findByIdAndDelete(req.params.id).then((result) => { //User.DeletOne({_id : req.parms.id})
-      if (!result)
-        console.log("user no defind");
-      res.redirect("/");
-    }).catch((err) => {
-      console.log(err);
-      res.status(500).send("user no deleted");
-    })
-  });
+  router.delete("/edit/:id", userController.user_delete);
   
   //Put Requst 
-  router.put("/edit/:id", (req, res) => {
-    User.updateOne({ _id: req.params.id }, req.body) // or findByIdAndUpdate(req.params.id,req.body)
-      .then((result) => {
-        if (result.matchedCount === 0) {
-          return res.status(404).send("User not found");
-        }
-        res.redirect("/");
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send("Failed to update user");
-      });
-  });
+  router.put("/edit/:id", userController.user_put);
   
   
 
