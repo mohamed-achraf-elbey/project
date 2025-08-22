@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
-
+const allRoutes = require('./routes/allRoutes')
+const addUserRoute = require('./routes/addUser')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const mongoose = require('mongoose');
-const User = require("./modelss/customersShema");
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
@@ -28,175 +28,8 @@ liveReloadServer.server.once("connection", () => {
   }, 100);
 });
 
-const users = [];
+
 const port = 3000;
-
-
-//res home page 
-app.get("/", (req, res) => {
-  User.find().then((result) => {
-    // console.log(result)
-    res.render("index", { result })
-
-  }).catch((err) => {
-    console.log(err)
-  })
-});
-//this first 
-app.get("/user/add.html", (req, res) => {
-  res.render("user/add", {})
-});
-
-
-
-
-
-
-/*app.get("/users", (request, response) => {
-   if (users.length == 0) {
-     response.status(404).send("No users found!");
-     return;
-   }
-   response.status(200).send(users);
- });*/
-
-// POST - Create data
-/*app.post("/users", (request, response) => {
-  console.log(request.body);
-  const user = request.body;
-  const findUser = users.find((x) => x.id === user.id);
-  if (findUser) {
-    response.status(400).send("User already exists");
-    return;
-  }
-  users.push(user);
-  response.status(201).send("Created!");
-});*/
-
-
-// DELETE - Remove data
-/* app.delete('/users/:id', (request, response) => {
-   const { id } = request.params
-   const findUserIndex = users.findIndex((x) => x.id === id)
-   if (findUserIndex == -1) {
-     response.status(400).send("User not found!")
-     return
-   }
-   users.splice(findUserIndex, 1)
-   response.status(200).send("User deleted successfully!")
- })*/
-
-// PUT - Update user (partial update allowed)
-/*app.put("/users/:id", (req, res) => {
-  const { id } = req.params;
-  const updatedData = req.body;
-
-  const index = users.findIndex((u) => u.id === id);
-  if (index === -1) {
-    return res.status(404).send("User not found!");
-  }
-
-  users[index] = { ...users[index], ...updatedData };
-  res.status(200).send("User updated successfully!");
-});*/
-
-
-//requst for varibles 
-app.get("/view/:id", (req, res) => {
-  User.findById(req.params.id)
-    .then((result) => {
-      if (!result) {
-        return res.status(404).send("User not found");
-      }
-      // Render and pass user data
-      res.render("user/view", { user: result });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Server Error");
-    });
-});
-
-//edit
-app.get("/edit/:id", (req, res) => {
-  User.findById(req.params.id).then((result) => {
-    if (!result) {
-      return res.status(404).send("User not found");
-    }
-    res.render("user/edit", { user: result });
-  }).catch((err) => {
-    console.error(err);
-    res.status(500).send("serveur error");
-  })
-
-});
-
-//Post Requst
-app.post("/user/add.html", (req, res) => {
-  //console.log(req.body);
-  //const user = new User();
-  User.create(req.body).then(result => {
-    res.redirect("/");
-  }).catch(err => {
-    console.log(err);
-    res.status(500).send("Error saving user");
-  })
-
-});
-
-app.post("/search", (req, res) => {
-  const keyword = req.body.name; 
-
-  User.find({
-    $or: [
-      { First_Name: { $regex: keyword, $options: "i" } }, 
-      { Last_Name: { $regex: keyword, $options: "i" } },  
-      { Country: { $regex: keyword, $options: "i" } }    
-    ]
-  })
-    .then(result => {
-      //console.log(result);
-        res.render("user/search", { result }); 
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send("Error searching user");
-    });
-});
-
-
-
-//Delete Requst 
-app.delete("/edit/:id", (req, res) => {
-  User.findByIdAndDelete(req.params.id).then((result) => { //User.DeletOne({_id : req.parms.id})
-    if (!result)
-      console.log("user no defind");
-    res.redirect("/");
-  }).catch((err) => {
-    console.log(err);
-    res.status(500).send("user no deleted");
-  })
-});
-
-//Put Requst 
-app.put("/edit/:id", (req, res) => {
-  User.updateOne({ _id: req.params.id }, req.body) // or findByIdAndUpdate(req.params.id,req.body)
-    .then((result) => {
-      if (result.matchedCount === 0) {
-        return res.status(404).send("User not found");
-      }
-      res.redirect("/");
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Failed to update user");
-    });
-});
-
-
-
-
-
 //DB 
 mongoose.connect('mongodb+srv://achrafelbey07:kziD5aHx6YvEfwGF@cluster0.sgmbtel.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0')
   .then(() => {
@@ -207,15 +40,6 @@ mongoose.connect('mongodb+srv://achrafelbey07:kziD5aHx6YvEfwGF@cluster0.sgmbtel.
 
   })
   .catch((err) => { console.log(err) });
-
-///////////
-/*
-  app.post("/home", (req, res) => {
-    console.log(req.body);
-    const myData = new MyData(req.body);
-    myData.save().then(() => {
-      res.redirect("/home");
-    }).catch((err) => {
-      console.log(err);
-    });
-  });*/
+  
+  app.use(allRoutes)
+  app.use('/user',addUserRoute)
