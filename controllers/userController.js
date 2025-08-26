@@ -1,4 +1,5 @@
 const User = require("../modelss/customersShema");
+const AuthUser = require("../modelss/authShema");
 
 const user_index_get = (req, res) => {
     User.find().then((result) => {

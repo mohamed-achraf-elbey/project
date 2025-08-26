@@ -3,7 +3,12 @@ const router = express.Router()
 const User = require("../modelss/customersShema");
 const userController = require("../controllers/userController");
 
-router.get("/add.html", userController.user_add_get);
+const requireAuth = require("../Middleware/authMiddleware")
+
+
+router.get("/add.html",requireAuth, userController.user_add_get);
+
+
 
 
   router.post("/add.html", userController.usr_post);

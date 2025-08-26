@@ -28,6 +28,15 @@ liveReloadServer.server.once("connection", () => {
   }, 100);
 });
 
+//active cookie parser
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
+app.use((req, res, next) => {
+  res.locals.user = null;
+  next();
+});
+
 
 const port = process.env.PORT || 3001;
 //DB 
