@@ -44,6 +44,8 @@ app.use((req, res, next) => {
 
 const port = process.env.PORT;
 //DB 
+console.log("MONGO_URI from env:", process.env.MONGO_URI);
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
 
