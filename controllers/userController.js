@@ -75,7 +75,7 @@ const user_put = (req, res) => {
         if (result.matchedCount === 0) {
           return res.status(404).send("User not found");
         }
-        res.redirect("/");
+        res.redirect("/home");
       })
       .catch((err) => {
         console.error(err);
@@ -90,7 +90,7 @@ const user_put = (req, res) => {
     //console.log(req.body);
     //const user = new User();
     User.create(req.body).then(result => {
-      res.redirect("/");
+      res.redirect("/home ");
     }).catch(err => {
       console.log(err);
       res.status(500).send("Error saving user");
