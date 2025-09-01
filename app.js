@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-require('dotenv').config();
+require("dotenv").config({ debug: true });
 
 
 
@@ -42,9 +42,9 @@ app.use((req, res, next) => {
 });
 
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 //DB 
-mongoose.connect('mongodb+srv://achrafelbey07:kziD5aHx6YvEfwGF@cluster0.sgmbtel.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
 
     app.listen(port, () => {
