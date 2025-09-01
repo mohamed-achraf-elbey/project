@@ -29,5 +29,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - - name: Run tests
-          run: echo "No tests to run"
+      - name: Run tests
+        run: echo "No tests to run"
