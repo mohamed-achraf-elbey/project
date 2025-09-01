@@ -8,6 +8,10 @@ const mongoose = require('mongoose');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+require('dotenv').config();
+
+
+
 const livereload = require("livereload");
 const connectLivereload = require("connect-livereload");
 app.use(connectLivereload());
