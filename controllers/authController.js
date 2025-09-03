@@ -1,4 +1,3 @@
-const User = require("../modelss/customersShema");
 const AuthUser = require("../modelss/authShema");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");

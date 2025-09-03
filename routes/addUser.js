@@ -11,7 +11,7 @@ router.get("/add.html",requireAuth, userController.user_add_get);
 
 
 
-  router.post("/add.html",requireAuth ,userController.usr_post);
+  router.post("/add.html",requireAuth ,userController.user_post);
 
     
 
