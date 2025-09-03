@@ -60,7 +60,8 @@ const user_delete = (req, res) => {
 
 const user_view_get = (req, res) => {
   // result ==> object
-  AuthUser.findOne({ "customerInfo._id": req.params.id })
+  var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+  AuthUser.findOne({ _id: decoded.id , "customerInfo._id": req.params.id })
     .then((result) => {
       const clickedObject = result.customerInfo.find((item) => {
         return item._id == req.params.id;
@@ -91,7 +92,9 @@ const user_view_get = (req, res) => {
     });
 }*/
 const user_edit_get = (req, res) => {
-  AuthUser.findOne({ "customerInfo._id": req.params.id })
+  var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+
+  AuthUser.findOne({_id: decoded.id , "customerInfo._id": req.params.id })
   .then((result) => {
     const clickedObject = result.customerInfo.find((item) => {
       return item._id == req.params.id;
@@ -108,6 +111,7 @@ const user_edit_get = (req, res) => {
 }
 
 const user_search_post = (req, res) => {
+  
   var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
   const keyword = req.body.name.trim();
   const regex = new RegExp(keyword, "i");
@@ -146,31 +150,36 @@ const user_search_post = (req, res) => {
   })
 } */
 
-const user_put = (req, res) => {
-  AuthUser.updateOne(   { "customerInfo._id": req.params.id },
-    {
-      $set: {
-        "customerInfo.$.First_Name": req.body.First_Name,
-        "customerInfo.$.Last_Name": req.body.Last_Name,
-        "customerInfo.$.Country": req.body.Country,
-        "customerInfo.$.Email": req.body.Email,
-        "customerInfo.$.Telephone": req.body.Telephone,
-        "customerInfo.$.Age": req.body.Age,
-        "customerInfo.$.Gender": req.body.Gender
-      }
-    }) // or findByIdAndUpdate(req.params.id,req.body)
-    .then((result) => {
+  const user_put = async (req, res) => {
+    try {
+      const decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
+  
+      const result = await AuthUser.updateOne(
+        { _id: decoded.id , "customerInfo._id": req.params.id },
+        {
+          $set: {
+            "customerInfo.$.First_Name": req.body.First_Name,
+            "customerInfo.$.Last_Name": req.body.Last_Name,
+            "customerInfo.$.Country": req.body.Country,
+            "customerInfo.$.Email": req.body.Email,
+            "customerInfo.$.Telephone": req.body.Telephone,
+            "customerInfo.$.Age": req.body.Age,
+            "customerInfo.$.Gender": req.body.Gender,
+          },
+        }
+      );
+  
       if (result.matchedCount === 0) {
-        return res.status(404).send("User not found");
+        return res.status(404).send("User not found or not owned by this admin");
       }
+  
       res.redirect("/home");
-    })
-    .catch((err) => {
+    } catch (err) {
       console.error(err);
       res.status(500).send("Failed to update user");
-    });
-}
-
+    }
+  };
+  
 const user_add_get = (req, res) => {
   res.render("user/add", {})
 }
