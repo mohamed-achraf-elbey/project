@@ -70,7 +70,7 @@ const user_view_get = (req, res) => {
       );
       console.log(clickedObject);
 
-      res.render("user/view", { obj: clickedObject});
+      res.render("user/view", { user: clickedObject});
     })
     .catch((err) => {
       console.log(err);
@@ -91,11 +91,15 @@ const user_view_get = (req, res) => {
     });
 }*/
 const user_edit_get = (req, res) => {
-  User.findById(req.params.id).then((result) => {
-    if (!result) {
+  AuthUser.findOne({ "customerInfo._id": req.params.id })
+  .then((result) => {
+    const clickedObject = result.customerInfo.find((item) => {
+      return item._id == req.params.id;
+    });
+    if (!clickedObject) {
       return res.status(404).send("User not found");
     }
-    res.render("user/edit", { user: result });
+    res.render("user/edit", { user: clickedObject });
   }).catch((err) => {
     console.error(err);
     res.status(500).send("serveur error");
@@ -104,24 +108,32 @@ const user_edit_get = (req, res) => {
 }
 
 const user_search_post = (req, res) => {
+  var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
   const keyword = req.body.name.trim();
+  const regex = new RegExp(keyword, "i");
 
-  User.find({
-    $or: [
-      { First_Name: { $regex: keyword, $options: "i" } },
-      { Last_Name: { $regex: keyword, $options: "i" } },
-      { Country: { $regex: keyword, $options: "i" } }
-    ]
-  })
-    .then(result => {
-      //console.log(result);
-      res.render("user/search", { result });
+  // نجيب غير الـ admin لي راهو لوجي
+  AuthUser.findOne({ _id: decoded.id })
+    .then(user => {
+      if (!user) {
+        return res.status(404).send("Admin not found");
+      }
+
+      // نفلتري العملاء ديالو فقط
+      const matched = user.customerInfo.filter(c =>
+        regex.test(c.First_Name) ||
+        regex.test(c.Last_Name) ||
+        regex.test(c.Country)
+      );
+
+      res.render("user/search", { result: matched });
     })
     .catch(err => {
       console.error(err);
       res.status(500).send("Error searching user");
     });
-}
+};
+
 
 /*const user_delete = (req, res) => {
   User.findByIdAndDelete(req.params.id).then((result) => { //User.DeletOne({_id : req.parms.id})
@@ -135,7 +147,18 @@ const user_search_post = (req, res) => {
 } */
 
 const user_put = (req, res) => {
-  User.updateOne({ _id: req.params.id }, req.body) // or findByIdAndUpdate(req.params.id,req.body)
+  AuthUser.updateOne(   { "customerInfo._id": req.params.id },
+    {
+      $set: {
+        "customerInfo.$.First_Name": req.body.First_Name,
+        "customerInfo.$.Last_Name": req.body.Last_Name,
+        "customerInfo.$.Country": req.body.Country,
+        "customerInfo.$.Email": req.body.Email,
+        "customerInfo.$.Telephone": req.body.Telephone,
+        "customerInfo.$.Age": req.body.Age,
+        "customerInfo.$.Gender": req.body.Gender
+      }
+    }) // or findByIdAndUpdate(req.params.id,req.body)
     .then((result) => {
       if (result.matchedCount === 0) {
         return res.status(404).send("User not found");
