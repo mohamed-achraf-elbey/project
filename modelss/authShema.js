@@ -22,6 +22,7 @@ const authUserSchema = new Schema(
     userName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    profileImage: { type: String },
     customerInfo: [customerSchema], // ✅ customers مربوطين بالـ admin
   },
   { timestamps: true } // ✅ حتى الـ admin عندو createdAt / updatedAt
