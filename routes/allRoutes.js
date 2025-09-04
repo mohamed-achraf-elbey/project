@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../modelss/customersShema");
-const AuthUser = require("../modelss/authShema");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 
@@ -11,9 +10,9 @@ const { check, validationResult } = require("express-validator");
 
 
 
+
 var { requireAuth } = require("../Middleware/authMiddleware");
 const { checkIfUser } = require("../Middleware/authMiddleware")
-
 
 // ================= Routes =================
 

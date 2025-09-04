@@ -16,9 +16,7 @@ const user_index_get = (req, res) => {
 
 
   AuthUser.findOne({ _id: decoded.id }).then((result) => {
-    // console.log(result)
-    console.log("***********************************************")
-    console.log(result)
+    
     res.render("index", { result: result.customerInfo });
 
   }).catch((err) => {
@@ -29,8 +27,7 @@ const user_index_get = (req, res) => {
 
 const user_post = (req, res) => { //for add customer we use push // sma njibo id ta3 admin w mino n9dro ndiro nzido customor 
   var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-  console.log("========================================");
-  console.log(req.body);
+
 
   AuthUser.updateOne({ _id: decoded.id }, { $push: { customerInfo: req.body } })
     .then(() => {
@@ -48,7 +45,7 @@ const user_delete = (req, res) => {
   )
     .then((result) => {
       res.redirect("/home");
-      console.log(result);
+      
     })
     .catch((err) => {
       console.log(err);
@@ -66,11 +63,8 @@ const user_view_get = (req, res) => {
       const clickedObject = result.customerInfo.find((item) => {
         return item._id == req.params.id;
       });
-      console.log(
-        "============================================================"
-      );
-      console.log(clickedObject);
-
+     
+    
       res.render("user/view", { user: clickedObject});
     })
     .catch((err) => {
@@ -181,7 +175,7 @@ const user_search_post = (req, res) => {
   };
   
 const user_add_get = (req, res) => {
-  res.render("user/add", {})
+  res.render("user/add")
 }
 
 module.exports = {

@@ -24,8 +24,7 @@ const get_welcome = (req, res) => {
       }
 
       const isCurrentEmail = await AuthUser.findOne({ email: req.body.email });
-      console.log(isCurrentEmail);
-
+      
       if (isCurrentEmail) {
         return res.json({ existEmail: "Email already exist" })
       }

@@ -6,9 +6,8 @@ const AuthUser = require("../modelss/authShema");
 
 
 const requireAuth = (req, res, next) => {
-  console.log("before run the function");
-  const token = req.cookies.jwt;
-  console.log(token);
+    const token = req.cookies.jwt;
+
 
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err) => {
