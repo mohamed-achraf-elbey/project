@@ -13,7 +13,7 @@ const customerSchema = new Schema(
     Country: { type: String, required: true },
     Gender: { type: String, required: true },
   },
-  { timestamps: true } // ✅ كل customer عندو createdAt و updatedAt
+  { timestamps: true } 
 );
 
 // Main schema for Admin user
@@ -23,9 +23,9 @@ const authUserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profileImage: { type: String },
-    customerInfo: [customerSchema], // ✅ customers مربوطين بالـ admin
+    customerInfo: [customerSchema], 
   },
-  { timestamps: true } // ✅ حتى الـ admin عندو createdAt / updatedAt
+  { timestamps: true } 
 );
 
 // Hash password before save

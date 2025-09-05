@@ -2,10 +2,7 @@ const AuthUser = require("../modelss/authShema");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
-require('dotenv').config()
-
-
-
+require('dotenv').config({ debug: false })
 
 const cloudinary = require("cloudinary").v2;
 
@@ -93,9 +90,6 @@ const get_welcome = (req, res) => {
     cloudinary.uploader.upload(req.file.path, {folder: "x-system/profile-imgs"}  , async (error, result) => {
       if (result) {
         var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
-        console.log("JWT Decoded:", decoded);
-
-  
         const avatar = await AuthUser.updateOne(
           { _id: decoded.id },
           { profileImage: result.secure_url }

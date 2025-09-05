@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-require("dotenv").config({ debug: true });
+require("dotenv").config({ debug: false });
 
 
 
