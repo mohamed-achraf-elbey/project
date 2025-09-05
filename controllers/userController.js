@@ -29,7 +29,15 @@ const user_post = (req, res) => { //for add customer we use push // sma njibo id
   var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET);
 
 
-  AuthUser.updateOne({ _id: decoded.id }, { $push: { customerInfo: req.body } })
+  AuthUser.updateOne({ _id: decoded.id }, { $push: { customerInfo:{
+    First_Name: req.body.First_Name,
+            Last_Name: req.body.Last_Name,
+            Country: req.body.Country,
+            Email: req.body.Email,
+            Telephone: req.body.Telephone,
+            Age: req.body.Age,
+            Gender: req.body.Gender,
+  } } })
     .then(() => {
       res.redirect("/home");
     })
