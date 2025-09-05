@@ -6,6 +6,10 @@ require('dotenv').config({ debug: false })
 
 const cloudinary = require("cloudinary").v2;
 
+
+const fs = require("fs");
+const path = require("path");
+
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
@@ -94,6 +98,15 @@ const get_welcome = (req, res) => {
           { _id: decoded.id },
           { profileImage: result.secure_url }
         );
+
+        fs.unlink(req.file.path, (err) => {
+            if (err) {
+              console.error("❌ Failed to delete temp file:", err);
+            } else {
+              console.log("🗑️ Temp file deleted:", req.file.path);
+            }
+          });
+          
         res.redirect("/home");
       }
     });
