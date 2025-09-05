@@ -102,11 +102,9 @@ const get_welcome = (req, res) => {
         fs.unlink(req.file.path, (err) => {
             if (err) {
               console.error("❌ Failed to delete temp file:", err);
-            } else {
-              console.log("🗑️ Temp file deleted:", req.file.path);
-            }
+            } 
           });
-          
+
         res.redirect("/home");
       }
     });
