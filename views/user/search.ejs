@@ -32,58 +32,57 @@
       <%- include('../Componentes/sidebar.ejs' , {courentPage : "search"}) %>
       <section class="w-100">
         <%- include('../Componentes/navbar.ejs') %>
-        <table
-          style="width: 99%"
-          class="text-center mx-auto table mt-5 table-striped table-bordered"
-        >
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Full Name</th>
-              <th scope="col">Gender</th>
-              <th scope="col">Country</th>
+        <% if(result.length> 0) { %>
+          <table style="width: 99%" class="text-center mx-auto table mt-5 table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Country</th>
+                <th scope="col">Age</th>
+                <th scope="col">Last updated</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for( let index=0; index < result.length; index++ ) { %>
+                <tr>
+                  <th scope="row">
+                    <%= index+1 %>
+                  </th>
+                  <td>
+                    <%= result[index].First_Name +" "+ result[index].Last_Name %></td>
+            <td><%= result[index].Gender %> </td>
+            <td><%= result[index].Country %></td>
+            <td><%= result[index].Age %></td>
+            <td> <%= moment(result[index].updatedAt).fromNow() %></td>
+            <td>
+              <a data-bs-toggle=" tooltip" data-bs-title="View details" data-bs-placement="top"
+                      class="btn btn-primary btn-sm" href="/view/<%= result[index]._id %>"><i
+                        class="bi bi-eye"></i></a>
 
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>test1</td>
-              <td>test2</td>
-              <td>@test3</td>
+                      <a data-bs-toggle="tooltip" data-bs-title="Edit user" data-bs-placement="top"
+                        class="btn btn-primary btn-sm" href="/edit/<%= result[index]._id %>">
+                        <i class="bi bi-pencil"></i>
+                      </a>
+                      <form action="/edit/<%= result[index]._id %>?_method=DELETE" method="post"
+                        style="display: inline;">
+                        <button data-bs-toggle="tooltip" data-bs-title="Delete user" data-bs-placement="top"
+                          class="btn btn-danger btn-sm" type="submit">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </form>
 
-              <td>
-                <a
-                  data-bs-toggle="tooltip"
-                  data-bs-title="View details"
-                  data-bs-placement="top"
-                  class="btn btn-primary btn-sm"
-                  href="./user/view.html"
-                  ><i class="bi bi-eye"></i
-                ></a>
+                  </td>
+                </tr>
+                <% } %>
 
-                <a
-                  data-bs-toggle="tooltip"
-                  data-bs-title="Edit user"
-                  data-bs-placement="top"
-                  class="btn btn-primary btn-sm"
-                  href="./user/edit.html"
-                >
-                  <i class="bi bi-pencil"></i>
-                </a>
-                <button
-                  data-bs-toggle="tooltip"
-                  data-bs-title="Delete user"
-                  data-bs-placement="top"
-                  class="btn btn-danger btn-sm"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+          <% }else{  %>
+              <h1 style="text-align: center; margin-top: 5rem ;"> No find customer </h1>
+            <% } %>
       </section>
     </main>
     <script src="../js/bootstrap.bundle.min.js"></script>
