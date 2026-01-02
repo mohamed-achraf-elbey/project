@@ -3,12 +3,8 @@ var jwt = require("jsonwebtoken");
 const AuthUser = require("../modelss/authShema");
 
 
-
-
 const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
-
-
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err) => {
       if (err) {
@@ -21,6 +17,7 @@ const requireAuth = (req, res, next) => {
     res.redirect("/login");
   }
 };
+
 
 const checkIfUser = (req, res, next) => {
   const token = req.cookies.jwt;
@@ -45,7 +42,4 @@ const checkIfUser = (req, res, next) => {
 };
 
 
-
-
 module.exports = { requireAuth, checkIfUser};
-
